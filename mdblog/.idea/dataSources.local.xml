@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - mdol@localhost" uuid="42018c44-6239-4aaa-8388-4ecef30f757b">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>mdol.*</schema-pattern>
+      <default-schemas>mdol.*</default-schemas>
+    </data-source>
+    <data-source name="MySQL - mdblog@localhost" uuid="dc820f67-5684-4597-96b4-535d96cfd7c5">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>mdblog.*</schema-pattern>
+      <default-schemas>mdblog.*</default-schemas>
+    </data-source>
+  </component>
+</project>
