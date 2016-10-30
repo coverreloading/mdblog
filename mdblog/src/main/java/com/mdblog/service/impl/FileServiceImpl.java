@@ -30,7 +30,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public ResponseEntity<byte[]> downloadFile(String token, String type, String content, String realPath) {
-        //TODO 未测试
+
         System.out.println("token= " + token);
         System.out.println("type= " + type);
         System.out.println("realPath= " + realPath);

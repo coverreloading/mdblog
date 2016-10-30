@@ -282,7 +282,7 @@
         <%--}--%>
         <%--});--%>
         <%--};--%>
-        //TODO // 选择查看文章
+
         $scope['getArticle'] = function (articleId) {
             getArticleFun(articleId);
         }

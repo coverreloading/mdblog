@@ -1,6 +1,9 @@
 package com.mdblog.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.List;
 
 //import com.fasterxml.jackson.core.JsonProcessingException;
 //import com.fasterxml.jackson.databind.JavaType;
@@ -85,6 +88,15 @@ public class JsonUtils {
             T obj = JSON.parseObject(jsonData,beanType);
             return obj;
         }catch(Exception e ){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType) {
+        try {
+            List<T> list = JSONObject.parseArray( jsonData,beanType);
+            return list;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

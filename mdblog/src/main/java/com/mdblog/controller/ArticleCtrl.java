@@ -22,7 +22,7 @@ public class ArticleCtrl {
     @Autowired
     private ArticleService articleService;
 
-    //TODO 未测试
+
     @RequestMapping(value = "/defaultShow")
     @ResponseBody
     public ResponResult defaultShow(){

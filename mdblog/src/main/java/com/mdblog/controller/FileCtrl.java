@@ -28,7 +28,7 @@ public class FileCtrl {
                                            @PathVariable(value = "token") String token,
                                            @PathVariable(value = "type") String type,
                                            String content)throws IOException {
-        //TODO 未测试
+
         if(token!=null&&type!=null&&content!=null){
             String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/temp");
             return fileService.downloadFile(token, type, content, realPath);

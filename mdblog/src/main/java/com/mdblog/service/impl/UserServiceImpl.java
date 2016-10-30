@@ -56,11 +56,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponResult addUser(User user) {
         user.setuPassword(DigestUtils.md5DigestAsHex(user.getuPassword().getBytes()));
-        // user2.setJoindate //TODO 缺少字段
         userMapper.insert(user);
         return ResponResult.ok();
     }
-    // TODO 未测试
+
     @Override
     public ResponResult getLogin(String email, String password) {
 
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
         return ResponResult.ok(token);
     }
     // 根据token从redis获取用户信息,返回用户json
-    // TODO 未测试
+
     @Override
     public ResponResult getUserByToken(String token) {
         String json = jedisClient.get(REDIS_USER_SESSION_KEY+":"+token);
@@ -100,7 +99,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // 根据token查询jedis中用户id,返回-1代表session过期
-    // TODO 未测试
+
     @Override
     public Long getUserIdByToken(String token){
         String json = jedisClient.get(REDIS_USER_SESSION_KEY+":"+token);

@@ -13,7 +13,8 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
                 p:defaultEncoding="UTF-8"
                 p:maxUploadSize="5400000"
-                p:uploadTempDir="WEB-INF/upload">
+                p:uploadTempDir="WEB-INF/upload"
+    >
     </bean>
 
     <!--视图渲染-->
@@ -57,6 +58,7 @@
     <mvc:resources location="/fonts/" mapping="fonts/**"/>
     <mvc:resources location="/layui/" mapping="layui/**"/>
     <mvc:resources location="/img/" mapping="img/**"/>
+    <mvc:resources location="/bootstrap-table/" mapping="bootstrap-table/**"/>
 
 
 </beans>

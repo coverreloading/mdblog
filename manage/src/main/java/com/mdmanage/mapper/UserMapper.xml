@@ -99,9 +99,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.mdmanage.po.User" >
-    insert into user ( U_Email, U_Phone,
+    insert into user (U_ID, U_Email, U_Phone, 
       U_Password)
-    values (#{uEmail,jdbcType=CHAR}, #{uPhone,jdbcType=CHAR},
+    values (#{uId,jdbcType=BIGINT}, #{uEmail,jdbcType=CHAR}, #{uPhone,jdbcType=CHAR}, 
       #{uPassword,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mdmanage.po.User" >

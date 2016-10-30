@@ -94,7 +94,7 @@
                 </div>
                 <div style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
                     <a class="btn btn-info btn-block btn-lg" data-toggle="modal"
-                       data-target=".release-article-modal">发布</a>
+                       data-target=".release-article-modal" ng-click="getSubject()">发布</a>
                 </div>
                 <div id="addSuccessMsg" hidden="hidden"
                      style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 265px;">
@@ -154,9 +154,10 @@
                                     <div class="form-group">
                                         <h3>标题</h3><input class="form-control bg-info " type="email" ng-model="raTitle">
                                     </div>
-
-                                    <div >
-                                        <input id="file-Portrait" name="mainPic" class="form-control file-caption kv-fileinput-caption" type="file">
+                                    <h3>封面</h3>
+                                    <div>
+                                        <input id="file-Portrait" name="mainPic"
+                                               class="form-control file-caption kv-fileinput-caption" type="file">
                                     </div>
 
                                     <div id="container">
@@ -164,6 +165,13 @@
                                         <ul id="myTags">
                                         </ul>
                                         <input type="hidden" id="articleTagsValues"/>
+                                    </div>
+                                    <div id="selectSubject">
+                                        <p><b>选择专题</b></p>
+                                        <select class="form-control" ng-model="selectSubject">
+                                            <option ng-repeat="subject in subjects">{{subject.sId}}.{{subject.sTitle}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </form>
                             </div>
@@ -289,11 +297,10 @@
         <%--}--%>
         <%--});--%>
         <%--};--%>
-        //TODO // 选择查看文章
+
         $scope['getArticle'] = function (articleId) {
             getArticleFun(articleId);
         }
-
         var getArticleFun = function (articleId) {
             $http({
                 method: 'POST',
@@ -440,14 +447,29 @@
                     .success(function (data) {
                         console.log(data);
                         if (data != null) {
-                            var obj =
-                                    swal("下载成功", "success")
+                            swal("下载成功", "success")
                         } else {
                             swal("session过期", "请重新登录7", "error");
                             $window.location.href = '${request.getContextPath()}/login';
                         }
                     });
         }
+        // 发布文章前获取专题
+        $scope['getSubject'] = getSubjectFun = function () {
+            $http({
+                method: 'get',
+                url: '${request.getContextPath()}/subject/getsubject',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                    .success(function (data) {
+                        console.log(data);
+                        if (data != null) {
+                            $scope.subjects = data.data;
+                        } else {
+                        }
+                    });
+        }
+        // 发布文章
         $scope['releaseArticle'] = releaseArticleFun = function (articleId) {
             swal({
                 title: "确定发布吗？",
@@ -461,7 +483,6 @@
                 closeOnCancel: false
             }, function (isConfirm) {
                 if (isConfirm) {
-
                 }
             });
         }
@@ -483,8 +504,6 @@
                 singleFieldDelimiter: ',',
                 tabIndex: null,
                 placeholderText: null
-
-
             });
             $('#singleFieldTags').tagit({
                 //输入提示
@@ -498,7 +517,6 @@
                 alert($('#articleTagsValues').val());
             });
         });
-
     });
 
     // 上传插件初始化

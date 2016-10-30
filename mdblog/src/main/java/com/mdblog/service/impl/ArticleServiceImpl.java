@@ -44,7 +44,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Value("${DEFAULT_ARTICLE_CONTENT}")
     private String DEFAULT_ARTICLE_CONTENT;
 
-    // TODO 未测试
     @Override
     public ResponResult addArticle(String token) {
         Long userId = userService.getUserIdByToken(token);
@@ -71,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
         return ResponResult.ok(article);
     }
 
-    // TODO 未测试
+
     @Override
     public ResponResult getArticle(String token, Long articleId) {
         // token过期判定
@@ -101,7 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
         jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, SSO_SESSION_EXPIRE);
         return ResponResult.ok(article);
     }
-    // TODO 未测试
+
     @Override
     public ResponResult updateArticle(String token, Article article) {
         // 接受token查询userId结果
@@ -123,7 +122,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleFromDB.setaUpdatetime(System.currentTimeMillis());
         articleFromDB.setaText(article.getaText());
 
-        articleMapper.updateByPrimaryKey(articleFromDB);
+        articleMapper.updateByPrimaryKeyWithBLOBs(articleFromDB);
         // 存入redis
         jedisClient.set(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(articleFromDB));
         // 更新redis时间
@@ -131,7 +130,7 @@ public class ArticleServiceImpl implements ArticleService {
         jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
         return ResponResult.ok();
     }
-    // TODO 未测试
+
     @Override
     public ResponResult getAllArticle(String token, int getFromRedis) {
         Long UID = userService.getUserIdByToken(token);
@@ -165,7 +164,7 @@ public class ArticleServiceImpl implements ArticleService {
         jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
         return ResponResult.ok(list);
     }
-    // TODO 未测试
+
     @Override
     public ResponResult deleteArticle(String token, Long articleId) {
         // token过期判定

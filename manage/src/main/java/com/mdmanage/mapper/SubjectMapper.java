@@ -27,4 +27,8 @@ public interface SubjectMapper {
     int updateByPrimaryKeySelective(Subject record);
 
     int updateByPrimaryKey(Subject record);
+
+    // 自定义方法
+
+    List<Subject> selectAll();
 }

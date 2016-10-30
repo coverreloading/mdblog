@@ -7,7 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
 <div >
-    <form class="layui-form layui-form-pane" action="${request.getContextPath()}/subject/add">
+    <div>
+        <input type="file" name="uploadFile" class="layui-upload-file"><br>
+        <img style="height: 100px;" id="LAY_demo_upload">
+    </div>
+    <br>
+    <form class="layui-form layui-form-pane" method="post" action="${request.getContextPath()}/subject/add">
         <div class="layui-form-item">
             <label class="layui-form-label">标题</label>
             <div class="layui-input-inline">
@@ -15,11 +20,7 @@
                        class="layui-input">
             </div>
         </div>
-        <div>
-            <input type="file" name="uploadFile" class="layui-upload-file">
-            <img style="height: 100px;" id="LAY_demo_upload">
-        </div>
-        <br>
+
         <input id="newSubjectPicUrl" hidden="hidden" name="sPic" lay-verify="sPic">
 
         <div class="layui-form-item layui-form-text">
@@ -29,9 +30,11 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="NSForm" ng-click="newSubjectForm()">提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="NSForm" >提交</button>
         </div>
     </form>
+    <br>
+    <button class="layui-btn"  ng-click="setRedis()">刷新专题缓存</button>
 </div>
 
 <script>
@@ -56,7 +59,7 @@
         });
 
 
-        //监听提交
+//        监听提交
 //        form.on('submit(NSForm)', function (data) {
 //            layer.alert(JSON.stringify(data.field), {
 //                title: '最终的提交信息'
@@ -65,30 +68,7 @@
 //        });
     });
 
-</script>
-
-<script>
     $('#newSubjectPicUrl').val("0");
-    var app = angular.module("indexApp", []);
-    app.controller("indexCtrl", function ($scope, $http) {
-        $scope['newSubjectForm'] = newSubjectFormFun = function () {
 
-            if ($('#newSubjectPicUrl').val() === "0") {
-                swal("还没上传图片", "点击上传图片添加专题图片", "error")
-            }
-            $http({
-                method: 'GET',
-                url: '${request.getContextPath()}/subjectManage',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
-                            swal("成功添加", "", "success");
-                        } else {
-                            swal("添加失败", "请重新添加", "error");
-                        }
-                    });
-        }
-    })
+
 </script>

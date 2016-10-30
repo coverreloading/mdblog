@@ -53,7 +53,7 @@ public class PictureServiceImpl implements PictureService {
 			String newName = IDUtils.genImageName();
 			newName = newName + oldName.substring(oldName.lastIndexOf("."));
 			//图片上传
-			// todo 未测试创建文件夹效果
+
 			String imagePath ="/subjectPic";
 			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, 
 					FTP_BASE_PATH, imagePath, newName, uploadFile.getInputStream());

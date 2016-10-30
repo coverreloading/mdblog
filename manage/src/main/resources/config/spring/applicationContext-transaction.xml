@@ -13,6 +13,8 @@
             <tx:method name="update*" propagation="REQUIRED"/>
             <tx:method name="delete*" propagation="REQUIRED"/>
             <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="download*" propagation="REQUIRED"/>
+            <tx:method name="upload*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
 

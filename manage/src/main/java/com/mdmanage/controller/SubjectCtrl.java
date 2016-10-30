@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Vincent on 16/10/29.
  */
@@ -24,9 +28,6 @@ public class SubjectCtrl {
 
     @RequestMapping(value = "/add")
     public String addSubject(Subject subject) {
-        System.out.println("title "+subject.getsTitle());
-        System.out.println("Desc "+subject.getsDesc());
-        System.out.println("pic "+subject.getsPic());
         if (StringUtils.isNotBlank(subject.getsTitle()) &&
                 StringUtils.isNotBlank(subject.getsDesc()) &&
                 StringUtils.isNotBlank(subject.getsPic())) {
@@ -36,12 +37,29 @@ public class SubjectCtrl {
         return "manage";
     }
 
-    @RequestMapping(value = "/get/{page}/{row}")
+    @RequestMapping(value = "/setRedis")
+    @ResponseBody
+    public ResponResult setRedis() {
+        return subjectService.setSubjectRedis();
+    }
 
-    public ResponResult getSubject(@PathVariable(value = "page") Integer page, @PathVariable(value = "row") Integer row) {
-        if (page != null && row != null) {
+    @RequestMapping(value = "/get")
+    @ResponseBody
+    public List<Subject> getSubject(Integer limit, Integer offset) {
+        Map hashMap = new HashMap();
+        Integer page=0;
+        Integer rows=0;
+        Integer total = 88;
+        if (limit != null && offset != null) {
 
-            return null;
-        } return null;
+            page = offset/limit+1;
+            rows=limit;
+
+            //
+            //hashMap.put("total",total);
+            //hashMap.put("rows", 10);
+            return subjectService.getTable(page,rows);
+        }
+        return null;
     }
 }
