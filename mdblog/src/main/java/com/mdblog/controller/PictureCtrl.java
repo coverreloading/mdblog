@@ -60,13 +60,11 @@ public class PictureCtrl {
             }
         }
     }
-
     // 上传封面
-    @RequestMapping(value = "/uploadArticleMainPic/{token}", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadArticleMainPic/{token}/{articleId}", method = RequestMethod.POST)
     @ResponseBody
-    public Map uploadArticleMainPic(@PathVariable(value = "token") String token, @RequestParam(value = "mainPic", required = false) MultipartFile uploadFile) {
-        Map result = pictureService.uploadPicture(token, uploadFile);
-        //为了保证功能的兼容性，需要把Result转换成json格式的字符串。
+    public Map uploadArticleMainPic(@PathVariable(value = "token") String token,@PathVariable(value = "articleId") Long articleId, @RequestParam(value = "mainPic", required = false) MultipartFile uploadFile) {
+        Map result = pictureService.uploadRAPicture(token,articleId, uploadFile);
         return result;
     }
 }

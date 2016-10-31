@@ -11,6 +11,8 @@ public class ReleaseArticle {
 
     private String raTitle;
 
+    private String raPic;
+
     private String raDesc;
 
     private Long raRead;
@@ -63,6 +65,14 @@ public class ReleaseArticle {
 
     public void setRaTitle(String raTitle) {
         this.raTitle = raTitle == null ? null : raTitle.trim();
+    }
+
+    public String getRaPic() {
+        return raPic;
+    }
+
+    public void setRaPic(String raPic) {
+        this.raPic = raPic == null ? null : raPic.trim();
     }
 
     public String getRaDesc() {

@@ -7,5 +7,5 @@ import com.mdblog.po.ReleaseArticle;
  * Created by Vincent on 16/10/30.
  */
 public interface ReleaseArticleService {
-    ResponResult addRA(String token , ReleaseArticle releaseArticle);
+    ResponResult addRA(String token,Long articleId,String tipJson, ReleaseArticle releaseArticle);
 }

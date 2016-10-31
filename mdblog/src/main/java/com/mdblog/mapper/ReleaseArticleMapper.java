@@ -33,4 +33,7 @@ public interface ReleaseArticleMapper {
     int updateByPrimaryKeyWithBLOBs(ReleaseArticle record);
 
     int updateByPrimaryKey(ReleaseArticle record);
+
+    //自定义方法
+    int insertAndGetId(ReleaseArticle record);
 }

@@ -7,6 +7,7 @@
     <result column="RA_UID" property="raUid" jdbcType="BIGINT" />
     <result column="RA_Subject_ID" property="raSubjectId" jdbcType="BIGINT" />
     <result column="RA_Title" property="raTitle" jdbcType="CHAR" />
+    <result column="RA_Pic" property="raPic" jdbcType="CHAR" />
     <result column="RA_Desc" property="raDesc" jdbcType="CHAR" />
     <result column="RA_Read" property="raRead" jdbcType="BIGINT" />
     <result column="RA_Like" property="raLike" jdbcType="BIGINT" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    RA_ID, RA_Article_ID, RA_UID, RA_Subject_ID, RA_Title, RA_Desc, RA_Read, RA_Like, 
-    RA_Createtime, RA_Updatetime, RA_Del
+    RA_ID, RA_Article_ID, RA_UID, RA_Subject_ID, RA_Title, RA_Pic, RA_Desc, RA_Read, 
+    RA_Like, RA_Createtime, RA_Updatetime, RA_Del
   </sql>
   <sql id="Blob_Column_List" >
     RA_Text
@@ -132,15 +133,15 @@
   </delete>
   <insert id="insert" parameterType="com.mdblog.po.ReleaseArticle" >
     insert into release_article (RA_ID, RA_Article_ID, RA_UID, 
-      RA_Subject_ID, RA_Title, RA_Desc, 
-      RA_Read, RA_Like, RA_Createtime, 
-      RA_Updatetime, RA_Del, RA_Text
-      )
+      RA_Subject_ID, RA_Title, RA_Pic, 
+      RA_Desc, RA_Read, RA_Like, 
+      RA_Createtime, RA_Updatetime, RA_Del, 
+      RA_Text)
     values (#{raId,jdbcType=BIGINT}, #{raArticleId,jdbcType=BIGINT}, #{raUid,jdbcType=BIGINT}, 
-      #{raSubjectId,jdbcType=BIGINT}, #{raTitle,jdbcType=CHAR}, #{raDesc,jdbcType=CHAR}, 
-      #{raRead,jdbcType=BIGINT}, #{raLike,jdbcType=BIGINT}, #{raCreatetime,jdbcType=BIGINT}, 
-      #{raUpdatetime,jdbcType=BIGINT}, #{raDel,jdbcType=INTEGER}, #{raText,jdbcType=LONGVARCHAR}
-      )
+      #{raSubjectId,jdbcType=BIGINT}, #{raTitle,jdbcType=CHAR}, #{raPic,jdbcType=CHAR}, 
+      #{raDesc,jdbcType=CHAR}, #{raRead,jdbcType=BIGINT}, #{raLike,jdbcType=BIGINT}, 
+      #{raCreatetime,jdbcType=BIGINT}, #{raUpdatetime,jdbcType=BIGINT}, #{raDel,jdbcType=INTEGER}, 
+      #{raText,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mdblog.po.ReleaseArticle" >
     insert into release_article
@@ -159,6 +160,9 @@
       </if>
       <if test="raTitle != null" >
         RA_Title,
+      </if>
+      <if test="raPic != null" >
+        RA_Pic,
       </if>
       <if test="raDesc != null" >
         RA_Desc,
@@ -197,6 +201,9 @@
       </if>
       <if test="raTitle != null" >
         #{raTitle,jdbcType=CHAR},
+      </if>
+      <if test="raPic != null" >
+        #{raPic,jdbcType=CHAR},
       </if>
       <if test="raDesc != null" >
         #{raDesc,jdbcType=CHAR},
@@ -245,6 +252,9 @@
       <if test="record.raTitle != null" >
         RA_Title = #{record.raTitle,jdbcType=CHAR},
       </if>
+      <if test="record.raPic != null" >
+        RA_Pic = #{record.raPic,jdbcType=CHAR},
+      </if>
       <if test="record.raDesc != null" >
         RA_Desc = #{record.raDesc,jdbcType=CHAR},
       </if>
@@ -278,6 +288,7 @@
       RA_UID = #{record.raUid,jdbcType=BIGINT},
       RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
       RA_Title = #{record.raTitle,jdbcType=CHAR},
+      RA_Pic = #{record.raPic,jdbcType=CHAR},
       RA_Desc = #{record.raDesc,jdbcType=CHAR},
       RA_Read = #{record.raRead,jdbcType=BIGINT},
       RA_Like = #{record.raLike,jdbcType=BIGINT},
@@ -296,6 +307,7 @@
       RA_UID = #{record.raUid,jdbcType=BIGINT},
       RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
       RA_Title = #{record.raTitle,jdbcType=CHAR},
+      RA_Pic = #{record.raPic,jdbcType=CHAR},
       RA_Desc = #{record.raDesc,jdbcType=CHAR},
       RA_Read = #{record.raRead,jdbcType=BIGINT},
       RA_Like = #{record.raLike,jdbcType=BIGINT},
@@ -320,6 +332,9 @@
       </if>
       <if test="raTitle != null" >
         RA_Title = #{raTitle,jdbcType=CHAR},
+      </if>
+      <if test="raPic != null" >
+        RA_Pic = #{raPic,jdbcType=CHAR},
       </if>
       <if test="raDesc != null" >
         RA_Desc = #{raDesc,jdbcType=CHAR},
@@ -351,6 +366,7 @@
       RA_UID = #{raUid,jdbcType=BIGINT},
       RA_Subject_ID = #{raSubjectId,jdbcType=BIGINT},
       RA_Title = #{raTitle,jdbcType=CHAR},
+      RA_Pic = #{raPic,jdbcType=CHAR},
       RA_Desc = #{raDesc,jdbcType=CHAR},
       RA_Read = #{raRead,jdbcType=BIGINT},
       RA_Like = #{raLike,jdbcType=BIGINT},
@@ -366,6 +382,7 @@
       RA_UID = #{raUid,jdbcType=BIGINT},
       RA_Subject_ID = #{raSubjectId,jdbcType=BIGINT},
       RA_Title = #{raTitle,jdbcType=CHAR},
+      RA_Pic = #{raPic,jdbcType=CHAR},
       RA_Desc = #{raDesc,jdbcType=CHAR},
       RA_Read = #{raRead,jdbcType=BIGINT},
       RA_Like = #{raLike,jdbcType=BIGINT},
@@ -374,4 +391,18 @@
       RA_Del = #{raDel,jdbcType=INTEGER}
     where RA_ID = #{raId,jdbcType=BIGINT}
   </update>
+
+  <!-- 自定义方法 -->
+  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="raId" parameterType="com.mdblog.po.ReleaseArticle" >
+    insert into release_article (RA_ID, RA_Article_ID, RA_UID,
+    RA_Subject_ID, RA_Title, RA_Pic,
+    RA_Desc, RA_Read, RA_Like,
+    RA_Createtime, RA_Updatetime, RA_Del,
+    RA_Text)
+    values (#{raId,jdbcType=BIGINT}, #{raArticleId,jdbcType=BIGINT}, #{raUid,jdbcType=BIGINT},
+    #{raSubjectId,jdbcType=BIGINT}, #{raTitle,jdbcType=CHAR}, #{raPic,jdbcType=CHAR},
+    #{raDesc,jdbcType=CHAR}, #{raRead,jdbcType=BIGINT}, #{raLike,jdbcType=BIGINT},
+    #{raCreatetime,jdbcType=BIGINT}, #{raUpdatetime,jdbcType=BIGINT}, #{raDel,jdbcType=INTEGER},
+    #{raText,jdbcType=LONGVARCHAR})
+  </insert>
 </mapper>

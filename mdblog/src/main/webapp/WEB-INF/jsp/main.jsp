@@ -110,9 +110,7 @@
                      style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
                     <a class="btn  btn-block btn-success btn-lg">删除成功</a>
                 </div>
-
                 <!-- 下载模态框 START-->
-
                 <div class="modal fade download-type-modal" tabindex="-1" role="dialog"
                      aria-labelledby="mySmallModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
@@ -137,9 +135,7 @@
                     </div>
                 </div>
                 <!-- 下载模态框 END -->
-
                 <!-- 发布模态框 START-->
-
                 <div class="modal fade release-article-modal" tabindex="-1" role="dialog"
                      aria-labelledby="mySmallModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -152,14 +148,14 @@
                             <div class="modal-body">
                                 <form ng-submit="articleFormSub()" class="well">
                                     <div class="form-group">
-                                        <h3>标题</h3><input class="form-control bg-info " type="email" ng-model="raTitle">
+                                        <h3>标题</h3>
+                                        <input class="form-control bg-info " type="text" ng-model="raTitle">
                                     </div>
                                     <h3>封面</h3>
                                     <div>
                                         <input id="file-Portrait" name="mainPic"
                                                class="form-control file-caption kv-fileinput-caption" type="file">
                                     </div>
-
                                     <div id="container">
                                         <p><b>输入标签</b></p>
                                         <ul id="myTags">
@@ -173,6 +169,8 @@
                                             </option>
                                         </select>
                                     </div>
+                                    <p><b>输入描述</b></p>
+                                    <textarea class="form-control" rows="3" ng-model="raDesc"></textarea>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -183,7 +181,6 @@
                     </div>
                 </div>
                 <!-- 发布模态框 END -->
-
                 <div hidden="hidden">
                     // 临时放置被选中文章各参数
                     {{articleInActiveaId}}<br/>
@@ -319,6 +316,7 @@
                             $scope.articleInActiveaUpdatetime = respon.data.aUpdatetime;
                             $scope.articleInActiveaDel = respon.data.aDel;
                             $scope.articleInActiveaUid = respon.data.aUid;
+
                         } else {
                             swal("session过期", "请重新登录3", "error");
                             $window.location.href = '${request.getContextPath()}/login';
@@ -454,8 +452,12 @@
                         }
                     });
         }
-        // 发布文章前获取专题
+        // 发布文章前: 初始化上传插件, 获取专题
         $scope['getSubject'] = getSubjectFun = function () {
+
+            //    调用上传插件
+            initFileInput("file-Portrait", "/Pic/uploadAPic");
+
             $http({
                 method: 'get',
                 url: '${request.getContextPath()}/subject/getsubject',
@@ -470,19 +472,40 @@
                     });
         }
         // 发布文章
-        $scope['releaseArticle'] = releaseArticleFun = function (articleId) {
+        $scope['releaseArticle'] = releaseArticleFun = function () {
             swal({
                 title: "确定发布吗？",
                 text: "你确定发布该文章吗？",
-                type: "warning",
+                type: "success",
                 showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "确定删除",
+                confirmButtonColor: "#66ccff",
+                confirmButtonText: "确定",
                 cancelButtonText: "不,手滑了",
                 closeOnConfirm: false,
                 closeOnCancel: false
             }, function (isConfirm) {
                 if (isConfirm) {
+                    $http({
+                        method: 'POST',
+                        url: '${request.getContextPath()}/RA/new',
+                        data: "token=${token}" +
+                        "&articleId=" + $scope.articleInActiveaId +
+                        "&tipJson=" + $('#articleTagsValues').val() +
+                        "&raSubjectJson=" + $scope.selectSubject+
+                        "&raTitle=" + $scope.raTitle +
+                        "&raDesc=" + $scope.raDesc +
+                        "&raText=" + testEditor.getPreviewedHTML(),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                            .success(function (data) {
+                                console.log(data);
+                                if (data != null) {
+                                    swal("发布成功", "success");
+                                } else {
+                                    swal("session过期", "请重新登录8", "error");
+                                    $window.location.href = '${request.getContextPath()}/login';
+                                }
+                            });
                 }
             });
         }
@@ -513,30 +536,24 @@
                 allowSpaces: true, //标签中是否允许空格
                 singleFieldNode: $('#mySingleField') //将值保存到mySingleField元素
             });
-            $('#submit1').click(function () {
-                alert($('#articleTagsValues').val());
+
+        });
+
+
+        // 上传插件初始化
+        //初始化fileinput控件（第一次初始化）
+        function initFileInput(ctrlName, uploadUrl) {
+            var control = $('#' + ctrlName);
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: '/pic/uploadArticleMainPic/${token}/' + $scope.articleInActiveaId, //上传的地址
+                allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+                showUpload: true, //是否显示上传按钮
+                showCaption: true,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
             });
-        });
+        }
     });
-
-    // 上传插件初始化
-    //初始化fileinput控件（第一次初始化）
-    function initFileInput(ctrlName, uploadUrl) {
-        var control = $('#' + ctrlName);
-
-        control.fileinput({
-            language: 'zh', //设置语言
-            uploadUrl: "/pic/uploadArticleMainPic/${token}", //上传的地址
-            allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
-            showUpload: true, //是否显示上传按钮
-            showCaption: true,//是否显示标题
-            browseClass: "btn btn-primary", //按钮样式
-            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-        });
-    }
-    //    调用上传
-    initFileInput("file-Portrait", "/Pic/uploadAPic");
-
-
 </script>
 </html>
